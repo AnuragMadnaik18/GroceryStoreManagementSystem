@@ -28,8 +28,8 @@ const CategoryFilter = () => {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-row flex-nowrap bg-white rounded p-3">
+    <div  >
+      <div className="d-flex flex-row flex-nowrap overflow-auto bg-white shadow-sm rounded p-3">
         {categories.map((cat) => (
           <div
             key={cat.name}
