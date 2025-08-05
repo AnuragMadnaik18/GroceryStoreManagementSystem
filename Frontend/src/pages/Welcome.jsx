@@ -1,47 +1,35 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import groceryImage from '../assets/images/Grocery.png';
-import './Welcome.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+"use client"
+import { useNavigate } from "react-router-dom"
+import { ShoppingCart } from "lucide-react" // Using Lucide React for the icon
+import "../css/Welcome.css" 
+import "bootstrap/dist/css/bootstrap.min.css"
 
 const Welcome = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div className="welcome-page">
-
-      {/* Background Image */}
-      <img src={groceryImage} alt="Grocery Background" className="background-img" />
-
-      {/* Overlay (transparent or removed darkness) */}
-      <div className="overlay"></div>
-
-      {/* Register Button - Top Right */}
-      <button
-        className="btn btn-warning fw-semibold register-btn"
-        onClick={() => navigate('/register')}
-      >
-        Register
-      </button>
-
-      {/* Centered Bottom Buttons */}
-      <div className="d-flex flex-column justify-content-end align-items-center h-100 pb-5 z-2">
-        {/* Centered Bottom Buttons */}
-        <div className="bottom-buttons d-flex gap-4">
-          <button className="btn btn-light px-4 py-2" onClick={() => navigate('/Home')}>
-            Guest
-          </button>
-          <button className="btn btn-light px-4 py-2" onClick={() => navigate('/Login')}>
-            User
-          </button>
-          <button className="btn btn-light px-4 py-2" onClick={() => navigate('/Login')}>
-            Admin
+      {/* Centered Content */}
+      <div className="centered-content">
+        {/* Grocify Symbol */}
+        <div className="grocify-symbol">
+          <ShoppingCart className="grocify-icon" />
+          <span className="sr-only">Grocify Logo</span>
+        </div>
+        <h1 className="grocify-title">Grocify</h1>
+        <p className="grocify-tagline">Your fresh groceries, delivered right to your door.</p>
+        {/* Buy the product button */}
+        <div className="mt-10">
+          <button
+            className="btn btn-success px-8 py-4 rounded-pill shadow-sm custom-btn-primary"
+            onClick={() => navigate("/Home")}
+          >
+            Start Grocery Journey
           </button>
         </div>
-
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Welcome;
+export default Welcome
