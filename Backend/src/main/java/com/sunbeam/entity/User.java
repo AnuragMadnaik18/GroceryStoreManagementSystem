@@ -1,11 +1,14 @@
 package com.sunbeam.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-@Data // includes getters, setters, toString, equals, and hashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -27,6 +30,11 @@ public class User {
     private String phoneNumber;
     
     private boolean status=true;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Cart> carts;
+    
 }
 
 
