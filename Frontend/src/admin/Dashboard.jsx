@@ -329,7 +329,7 @@ const Dashboard = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 mb-2 mb-md-0">
-                            <h5>Smart Mart</h5>
+                            <h5>Grocify</h5>
                             <p>Your one-stop shop for daily groceries and essentials.</p>
                         </div>
                         <div className="col-md-4 mb-2 mb-md-0">
@@ -350,11 +350,11 @@ const Dashboard = () => {
                                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="mx-2 text-white"><i className="fab fa-instagram fa-lg"></i></a>
                                 <a href="mailto:info@smartmart.com" className="mx-2 text-white"><i className="fas fa-envelope fa-lg"></i></a>
                             </div>
-                            <div className="mt-2">App ID: <span className="badge bg-primary">SMARTMART2025</span></div>
+                            <div className="mt-2">App ID: <span className="badge bg-primary">Grocify2025</span></div>
                         </div>
                     </div>
                     <hr className="bg-secondary" />
-                    <div>&copy; {new Date().getFullYear()} Smart Mart. All rights reserved.</div>
+                    <div>&copy; {new Date().getFullYear()} Grocify. All rights reserved.</div>
                 </div>
             </footer>
         </div>

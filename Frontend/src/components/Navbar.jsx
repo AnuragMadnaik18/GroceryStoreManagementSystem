@@ -87,9 +87,6 @@ function Navbar() {
                 <Link className='nav-link text-light' to='/home'>Home</Link>
               </li>
               <li className='nav-item'>
-                <Link className='nav-link text-light' to='/task-list'>Tasks</Link>
-              </li>
-              <li className='nav-item'>
                 <Link className='nav-link text-light' to='/MyOrders'>My orders</Link>
               </li>
             </ul>
