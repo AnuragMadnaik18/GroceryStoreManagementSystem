@@ -6,16 +6,20 @@ import Navbar from '../components/Navbar';
 import { toast } from 'react-toastify';
 import { config } from '../services/config';
 import { addToCartAPI } from '../services/cart';
+import { getRecommendedProducts } from '../services/recommended';
 
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
+  // Check if product is already in cart
+  const isInCart = cartItems.some(item => String(item.id) === String(id));
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [recommended, setRecommended] = useState([]);
 
   // Feedback state
   const [feedback, setFeedback] = useState('');
@@ -34,6 +38,9 @@ function ProductDetail() {
         if (found) {
           setProduct(found);
           setError(null);
+          // Fetch recommended products after product is loaded
+          const rec = await getRecommendedProducts(found.category, found.id);
+          setRecommended(rec);
         } else {
           setError('Product not found');
           setProduct(null);
@@ -47,7 +54,6 @@ function ProductDetail() {
     };
     fetchProduct();
   }, [id]);
-
 
   // Fetch feedback for product
   useEffect(() => {
@@ -189,9 +195,15 @@ function ProductDetail() {
                     </div>
 
                     <div className='mt-4 d-flex gap-3'>
-                      <button className='btn btn-success btn-lg' onClick={handleAddToCart}>
-                        Add to Cart
-                      </button>
+                      {isInCart ? (
+                        <button className='btn btn-warning btn-lg' onClick={() => navigate('/summary')}>
+                          Go to Cart
+                        </button>
+                      ) : (
+                        <button className='btn btn-success btn-lg' onClick={handleAddToCart}>
+                          Add to Cart
+                        </button>
+                      )}
                       <button className='btn btn-secondary btn-lg' onClick={() => navigate('/Home')}>
                         Back to Home
                       </button>
@@ -200,6 +212,31 @@ function ProductDetail() {
                 </div>
               </div> {/* row */}
             </div>
+
+            {/* Recommended Products */}
+            {recommended.length > 0 ? (
+              <div className="mt-5">
+                <h5 className="mb-3">Recommended Products</h5>
+                <div className="row">
+                  {recommended.map((rec) => (
+                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={rec.id}>
+                      <div className="card h-100 shadow-sm border-0" style={{ cursor: 'pointer' }} onClick={() => navigate(`/product/${rec.id}`)}>
+                        <img
+                          src={localStorage.getItem('product_img_' + rec.name) || rec.image}
+                          alt={rec.name}
+                          className="card-img-top"
+                          style={{ height: '140px', objectFit: 'contain' }}
+                        />
+                        <div className="card-body d-flex flex-column">
+                          <h6 className="card-title text-truncate">{rec.name}</h6>
+                          <p className="card-text text-success fw-semibold mb-1">₹{rec.price}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             {/* Feedback Section */}
             <div className='card mt-4'>

@@ -117,7 +117,7 @@ const Dashboard = () => {
                             <button className="btn btn-outline-light w-100" onClick={() => {
                                 localStorage.removeItem('isAdmin');
                                 toast.info('Logged out successfully!');
-                                setTimeout(() => { window.location.href = '/'; }, 1200);
+                                setTimeout(() => { window.location.href = '/Home'; }, 1200);
                             }}>Logout</button>
                         </li>
                     </ul>
@@ -343,7 +343,7 @@ const Dashboard = () => {
                         </div>
                         <div className="col-md-4">
                             <h5>Contact & Social</h5>
-                            <p>Email: <a href="mailto:info@smartmart.com" className="text-white">info@smartmart.com</a></p>
+                            <p>Email: <a href="mailto:info@grocify.com" className="text-white">info@grocify.com</a></p>
                             <div>
                                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mx-2 text-white"><i className="fab fa-facebook fa-lg"></i></a>
                                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="mx-2 text-white"><i className="fab fa-twitter fa-lg"></i></a>
@@ -354,7 +354,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <hr className="bg-secondary" />
-                    <div>&copy; {new Date().getFullYear()} Grocify. All rights reserved.</div>
+                    <div>&copy; {new Date().getFullYear()} Smart Mart. All rights reserved.</div>
                 </div>
             </footer>
         </div>

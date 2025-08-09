@@ -1,0 +1,25 @@
+.product-detail-bg {
+  background: linear-gradient(135deg, #d4fc79, #96e6a1);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.product-detail-card {
+  background: rgba(255,255,255,0.92);
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(40, 167, 69, 0.10);
+  border: 1.5px solid #96e6a1;
+}
+
+.product-detail-title {
+  color: #2d572c;
+}
+
+.product-detail-desc {
+  color: #388e3c;
+}
+
+.product-detail-price {
+  color: #ff6f3c;
+  font-weight: 600;
+}

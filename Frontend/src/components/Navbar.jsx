@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { searchProductByName } from '../services/searchProduct'; // <-- new service
-import '../css/Navbar.css'; 
+import '../css/Navbar.css';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ function Navbar() {
     sessionStorage.clear();
     setUser(null);
     setShowProfile(false);
-    navigate('/');
+    navigate('/Home');
   };
 
   const goToRegister = () => navigate('/user/register');
