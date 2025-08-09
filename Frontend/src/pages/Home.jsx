@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../css/Home.css';
+import '../css/Home.css'; // Ensure this path is correct
 import Navbar from './../components/Navbar';
 import { config } from '../services/config';
 import { getAverageRatingAPI } from '../services/feedback';
-import { FaAppleAlt, FaCheese, FaBreadSlice, FaSnowflake, FaBox, FaCoffee, FaHeart, FaBroom, FaDog } from 'react-icons/fa';
 
 const categories = [
-  { name: 'All Categories', icon: null },
-  { name: 'FRESHPRODUCTS', icon: <FaAppleAlt /> },
-  { name: 'DAIRY', icon: <FaCheese /> },
-  { name: 'BAKERY', icon: <FaBreadSlice /> },
-  { name: 'FROZENFOOD', icon: <FaSnowflake /> },
-  { name: 'PACKAGEDFOOD', icon: <FaBox /> },
-  { name: 'BEVERAGES', icon: <FaCoffee /> },
-  { name: 'HEALTHNBEAUTY', icon: <FaHeart /> },
-  { name: 'HOUSEHOLD', icon: <FaBroom /> },
-  { name: 'PETFOOD', icon: <FaDog /> }
+  'All Categories',
+  'FRESHPRODUCTS',
+  'DAIRY',
+  'BAKERY',
+  'FROZENFOOD',
+  'PACKAGEDFOOD',
+  'BEVERAGES',
+  'HEALTHNBEAUTY',
+  'HOUSEHOLD',
+  'PETFOOD'
 ];
 
 function Home() {
@@ -33,15 +32,15 @@ function Home() {
         const res = await axios.get(`${config.serverUrl}/products`);
         const productList = res.data;
         setProducts(productList);
-        setFilteredProducts(productList);
+        setFilteredProducts(productList); // default view
 
         const ratingMap = {};
         for (let product of productList) {
           try {
             const res = await getAverageRatingAPI(product.id);
             ratingMap[product.id] = res.data;
-          } catch {
-            ratingMap[product.id] = 4.0;
+          } catch (err) {
+            ratingMap[product.id] = 4.0; // fallback rating
           }
         }
         setRatings(ratingMap);
@@ -57,8 +56,8 @@ function Home() {
     if (category === 'All Categories') {
       setFilteredProducts(products);
     } else {
-      const filtered = products.filter(
-        (product) => product.category.toUpperCase() === category.toUpperCase()
+      const filtered = products.filter((product) =>
+        product.category.toUpperCase() === category.toUpperCase()
       );
       setFilteredProducts(filtered);
     }
@@ -69,21 +68,22 @@ function Home() {
   };
 
   return (
-    <div className='home-page'>
+    <div className='bg-light min-vh-100 d-flex flex-column'>
+      {/* Navbar */}
       <Navbar products={products} />
 
       {/* Category Filter */}
-      <div className='container py-4 category-section'>
+      <div className='container py-3'>
         <div className='d-flex flex-wrap gap-2 justify-content-center'>
           {categories.map((cat) => (
             <button
-              key={cat.name}
-              onClick={() => filterByCategory(cat.name)}
-              className={`category-btn ${selectedCategory === cat.name ? 'active' : ''
-                }`}
+              key={cat}
+              onClick={() => filterByCategory(cat)}
+              className={`btn ${
+                selectedCategory === cat ? 'btn-primary' : 'btn-outline-primary'
+              } btn-sm`}
             >
-              {cat.icon && <span className='cat-icon'>{cat.icon}</span>}
-              {cat.name}
+              {cat}
             </button>
           ))}
         </div>
@@ -94,29 +94,22 @@ function Home() {
         <div className='row'>
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <div
-                className='col-12 col-sm-6 col-md-4 col-lg-3 mb-4'
-                key={product.id}
-              >
-                <div className='product-card' onClick={() => goToDetails(product.id)}>
-                  <div className='product-img'>
-                    <img
-                      src={
-                        localStorage.getItem('product_img_' + product.name) ||
-                        product.image
-                      }
-                      alt={product.name}
-                    />
-                  </div>
-                  <div className='product-body'>
-                    <h5 className='product-title'>{product.name}</h5>
-                    <p className='product-desc'>
-                      {product.description
-                        ? product.description.slice(0, 60) +
-                        (product.description.length > 60 ? '...' : '')
-                        : 'No description available.'}
-                    </p>
-                    <div className='product-rating'>
+              <div className='col-12 col-sm-6 col-md-4 col-lg-3 mb-4' key={product.id}>
+                <div className='card h-100 shadow-sm border-0'>
+                  <img
+                    src={
+                      localStorage.getItem('product_img_' + product.name) || product.image
+                    }
+                    alt={product.name}
+                    className='card-img-top'
+                    onClick={() => goToDetails(product.id)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <div className='card-body d-flex flex-column'>
+                    <h5 className='card-title text-truncate'>{product.name}</h5>
+
+                    {/* ⭐ Star Rating */}
+                    <div className='mb-2'>
                       {[1, 2, 3, 4, 5].map((i) => (
                         <span
                           key={i}
@@ -131,7 +124,16 @@ function Home() {
                         </span>
                       ))}
                     </div>
-                    <p className='product-price'>₹{product.price}</p>
+
+                    <p className='card-text text-success fw-semibold mb-1'>
+                      ₹{product.price}
+                    </p>
+                    <button
+                      className='btn btn-outline-primary mt-auto'
+                      onClick={() => goToDetails(product.id)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
               </div>
