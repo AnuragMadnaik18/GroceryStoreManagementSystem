@@ -1,7 +1,7 @@
 import React from "react";
-import "../css/Footer.css"; 
+import "../css/Footer.css";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -27,8 +27,8 @@ const Footer = () => {
         {/* Column 3: Contact */}
         <div className="footer-section">
           <h4>Contact</h4>
-          <p>Email: Grocify@gmail.com</p>
-          <p>Phone: +91 9587420136</p>
+          <p>Email: help@grocifyinfo.com</p>
+          <p>Phone: +91 80808080</p>
           <p>Location: Pune, India</p>
         </div>
 

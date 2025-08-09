@@ -28,8 +28,13 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  // ✅ New function: to replace cart with data from backend
+  const updateCart = (newItems) => {
+    setCartItems(newItems);
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart,updateCart }}>
       {children}
     </CartContext.Provider>
   );

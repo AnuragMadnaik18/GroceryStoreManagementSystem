@@ -11,8 +11,8 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const ADMIN_EMAIL = "anurag18@gmail.com"
-  const ADMIN_PASSWORD = "anurag18"
+  const ADMIN_EMAIL = "grocify@gmail.com"
+  const ADMIN_PASSWORD = "grocify"
 
   const handleAdminLogin = () => {
     setError("")
