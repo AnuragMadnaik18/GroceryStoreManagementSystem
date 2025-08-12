@@ -1,14 +1,12 @@
-
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
 import { getCartByUserIdAPI, deleteCartItemAPI } from '../services/cart';
-import { useCart } from '../store/CartContext';
 
 const OrderSummaryPage = ({ products = [] }) => {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, updateCart } = useCart();
+  const [cartItems, setCartItems] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
@@ -16,27 +14,22 @@ const OrderSummaryPage = ({ products = [] }) => {
       if (user?.id) {
         try {
           const response = await getCartByUserIdAPI(user.id);
-          // Normalize backend cart to match context structure if needed
-          const normalized = response.data.map(item => ({
-            ...item,
-            id: item.product?.id || item.productId || item.id, // fallback for id
-            name: item.productName || item.name,
-          }));
-          updateCart(normalized);
+          setCartItems(response.data);
         } catch (error) {
           console.error("Error fetching cart items:", error);
         }
       }
     };
     fetchCart();
-    // eslint-disable-next-line
   }, [user?.id]);
 
   const handleRemoveFromCart = async (userId, productId) => {
     try {
       await deleteCartItemAPI(userId, productId);
-      removeFromCart(productId);
       toast.success("Product removed from cart!");
+      setCartItems(prevItems =>
+        prevItems.filter(item => item.product.id !== productId)
+      );
     } catch (error) {
       toast.error("Error removing product from cart");
       console.error("Error removing item from cart:", error);
@@ -75,12 +68,12 @@ const OrderSummaryPage = ({ products = [] }) => {
               <ul className="list-group mb-4">
                 {cartItems.map((item, index) => (
                   <li
-                    key={`${item.id || item.product?.id || index}`}
+                    key={`${item.product.id}-${index}`} // ✅ Now using a unique key
                     className="list-group-item d-flex justify-content-between align-items-center flex-wrap"
                     style={{ borderRadius: '10px', backgroundColor: '#f9f9f9' }}
                   >
                     <div className="w-75">
-                      <h5 className="mb-1 fw-semibold">{item.productName || item.name}</h5>
+                      <h5 className="mb-1 fw-semibold">{item.productName}</h5>
                       <p className="mb-1 text-muted">
                         ₹{item.price} × {item.quantity}
                       </p>
@@ -91,7 +84,7 @@ const OrderSummaryPage = ({ products = [] }) => {
 
                     <button
                       className="btn btn-outline-danger btn-sm"
-                      onClick={() => handleRemoveFromCart(user.id, item.id || item.product?.id)}
+                      onClick={() => handleRemoveFromCart(user.id, item.product.id)}
                     >
                       ❌ Cancel
                     </button>
