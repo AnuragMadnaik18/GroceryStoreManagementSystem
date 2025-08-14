@@ -60,7 +60,7 @@ const ProductList = ({ refresh, onEdit }) => {
                                         </td>
                                         <td>{p.name}</td>
                                         <td>{p.description}</td>
-                                        <td>${p.price}</td>
+                                        <td>₹ {p.price}</td>
                                         <td>{p.stock}</td>
                                         <td>{p.category}</td>
                                         <td>

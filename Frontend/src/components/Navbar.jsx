@@ -1,146 +1,282 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { searchProductByName } from '../services/searchProduct'; // <-- new service
-import '../css/Navbar.css';
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { Link, useNavigate, useLocation } from "react-router-dom"
+import { motion, AnimatePresence } from "framer-motion"
+import { searchProductByName } from "../services/searchProduct"
+import { FaSearch, FaShoppingCart, FaUser, FaMapMarkerAlt, FaPhone } from "react-icons/fa"
+import "../css/Navbar.css"
+import UserLoginModal from "./UserLoginModal"
+import AdminLoginModal from "./AdminLoginModal"
+import "../css/UserLoginModal.css"
 
 function Navbar() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [user, setUser] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
-  const profileRef = useRef();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [user, setUser] = useState(null)
+  const [showProfile, setShowProfile] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showAdminLoginModal, setShowAdminLoginModal] = useState(false)
+  const profileRef = useRef()
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
+    const storedUser = sessionStorage.getItem("user")
+    if (storedUser) setUser(JSON.parse(storedUser))
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (profileRef.current && !profileRef.current.contains(event.target) && !event.target.closest('.profile-trigger')) {
-        setShowProfile(false);
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target) &&
+        !event.target.closest(".profile-trigger")
+      ) {
+        setShowProfile(false)
       }
     }
-
     if (showProfile) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside)
     }
-
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showProfile]);
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [showProfile])
 
   const handleSearchChange = async (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
-    if (value.trim() === '') {
-      setFilteredProducts([]);
+    const value = e.target.value
+    setSearchTerm(value)
+    if (value.trim() === "") {
+      setFilteredProducts([])
     } else {
-      const results = await searchProductByName(value);
-      setFilteredProducts(results);
+      const results = await searchProductByName(value)
+      setFilteredProducts(results)
     }
-  };
+  }
 
   const goToDetails = (productId) => {
-    navigate(`/product/${productId}`);
-    setSearchTerm('');
-    setFilteredProducts([]);
-  };
+    navigate(`/product/${productId}`)
+    setSearchTerm("")
+    setFilteredProducts([])
+  }
 
   const handleProfileClick = () => {
     if (user) {
-      setShowProfile((prev) => !prev);
+      setShowProfile((prev) => !prev)
     } else {
-      navigate('/user/login');
+      navigate("/user/login")
     }
-  };
+  }
 
   const onLogout = () => {
-    sessionStorage.clear();
-    setUser(null);
-    setShowProfile(false);
-    navigate('/Home');
-  };
+    sessionStorage.clear()
+    setUser(null)
+    setShowProfile(false)
+    navigate("/Home")
+  }
 
-  const goToRegister = () => navigate('/user/register');
-  const goToUserLogin = () => navigate('/user/login');
-  const goToAdminLogin = () => navigate('/admin/login');
+  const goToRegister = () => navigate("/user/register")
+  const goToUserLogin = () => setShowLoginModal(true)
+
+  // Sync user state when login modal closes
+  const handleLoginModalClose = () => {
+    setShowLoginModal(false);
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }
+  const goToAdminLogin = () => setShowAdminLoginModal(true)
 
   return (
     <>
-      <nav className='navbar navbar-expand-lg bg-dark shadow-sm py-3 px-4'>
-        <div className='container-fluid'>
-          <Link className='navbar-brand fs-3 fw-bold text-light d-flex align-items-center gap-2' to='/home'>
-            🛍️ <span>Grocify</span>
-          </Link>
+      <UserLoginModal show={showLoginModal} onClose={handleLoginModalClose} />
+      <AdminLoginModal show={showAdminLoginModal} onClose={() => setShowAdminLoginModal(false)} />
+      {/* Main Header */}
+      <nav className="main-header-groci">
+        <div className="container">
+          <div className="row align-items-center">
+            {/* Logo */}
+            <div className="col-lg-2 col-md-3 col-6">
+              <Link className="logo-groci" to="/home">
+                🛒 GROCIFY
+              </Link>
+            </div>
 
-          <button className='navbar-toggler bg-light' type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav'>
-            <span className='navbar-toggler-icon'></span>
-          </button>
-
-          <div className='collapse navbar-collapse justify-content-between' id='navbarNav'>
-            <ul className='navbar-nav gap-3 fs-6'>
-              <li className='nav-item'>
-                <Link className='nav-link text-light' to='/home'>Home</Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link text-light' to='/MyOrders'>My orders</Link>
-              </li>
-            </ul>
-
-            <div className='d-flex align-items-center gap-3'>
-              {/* Search */}
-              <div className='position-relative' style={{ width: '250px' }}>
+            {/* Search Bar */}
+            <div className="col-lg-6 col-md-5 d-none d-md-block">
+              <div className="search-container-groci">
                 <input
-                  type='text'
-                  className='form-control form-control-sm rounded-pill ps-3'
-                  placeholder='🔍 Search...'
+                  type="text"
+                  className="search-input-groci"
+                  placeholder="Search for products..."
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
+                <button className="search-btn-groci">
+                  <FaSearch />
+                </button>
                 {filteredProducts.length > 0 && (
-                  <ul className='list-group position-absolute w-100 mt-1 z-3'>
+                  <div className="search-results-groci">
                     {filteredProducts.map((product) => (
-                      <li
+                      <div
                         key={product.id}
-                        className='list-group-item list-group-item-action'
+                        className="search-result-item-groci"
                         onClick={() => goToDetails(product.id)}
-                        style={{ cursor: 'pointer' }}
                       >
                         {product.name}
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </div>
+            </div>
 
-              <Link to='/summary' className='text-light fs-5 text-decoration-none'>🛒</Link>
-
-              <span
-                className='text-light fs-5 profile-trigger'
-                title='Profile'
-                onClick={handleProfileClick}
-                style={{ cursor: 'pointer' }}
-              >👤</span>
-
-              {user ? (
-                <button onClick={onLogout} className='btn btn-sm btn-outline-light'>Logout</button>
-              ) : (
-                location.pathname === '/Home' && (
+            {/* Header Actions + Contact/Location/Auth */}
+            <div className="col-lg-4 col-md-4 d-none d-md-flex justify-content-end align-items-center">
+              <div className="header-actions-groci" style={{ display: 'flex', alignItems: 'center', gap: '2.8rem', paddingRight: '0.5rem' }}>
+                <div className="d-flex flex-column align-items-end" style={{ minWidth: '170px', lineHeight: 1.2 }}>
+                  <span style={{ fontSize: '1.05rem', fontWeight: 600, color: '#20b2aa', letterSpacing: '0.5px' }}>FREE DELIVERY</span>
+                </div>
+                {!user ? (
                   <>
-                    <button onClick={goToRegister} className='btn btn-sm btn-outline-success'>Register</button>
-                    <div className='dropdown'>
-                      <button className='btn btn-sm btn-outline-info dropdown-toggle text-light' data-bs-toggle='dropdown'>Login</button>
-                      <ul className='dropdown-menu dropdown-menu-end'>
-                        <li><button className='dropdown-item' onClick={goToUserLogin}>Customer</button></li>
-                        <li><button className='dropdown-item' onClick={goToAdminLogin}>Admin</button></li>
+                    <Link to="/about" className="action-item-groci" style={{ fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                      About Us
+                    </Link>
+                    <Link to="/contact" className="action-item-groci" style={{ fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                      Contact Us
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/MyOrders" className="action-item-groci" style={{ fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                      My Orders
+                    </Link>
+                    <Link to="/summary" className="action-item-groci" style={{ fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                      <FaShoppingCart className="me-1" />Cart
+                    </Link>
+                  </>
+                )}
+                {!user ? (
+                  <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                    <span className="auth-link-groci" onClick={goToRegister} style={{ cursor: 'pointer', fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                      Sign Up
+                    </span>
+                    <div className="dropdown">
+                      <span className="auth-link-groci dropdown-toggle" data-bs-toggle="dropdown" style={{ cursor: 'pointer', fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                        Sign In
+                      </span>
+                      <ul className="dropdown-menu dropdown-menu-end">
+                        <li>
+                          <button className="dropdown-item" onClick={goToUserLogin}>
+                            User
+                          </button>
+                        </li>
+                        <li>
+                          <button className="dropdown-item" onClick={goToAdminLogin}>
+                            Admin
+                          </button>
+                        </li>
                       </ul>
                     </div>
-                  </>
-                )
+                  </div>
+                ) : (
+                  <span className="auth-link-groci" onClick={onLogout} style={{ cursor: 'pointer', fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem' }}>
+                    Logout
+                  </span>
+                )}
+                {user && (
+                  <span className="action-item-groci profile-trigger" onClick={handleProfileClick} style={{ fontWeight: 600, fontSize: '1.05rem', padding: '0 0.5rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <FaUser className="me-1" /> Hi, {user.fullName?.split(' ')[0] || user.fullName || 'User'}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <div className="col-6 d-md-none text-end">
+              <button
+                className="btn btn-link text-white"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mobileNav"
+              >
+                <span className="navbar-toggler-icon-custom">☰</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Search */}
+          <div className="row d-md-none mt-3">
+            <div className="col-12">
+              <div className="search-container-groci">
+                <input
+                  type="text"
+                  className="search-input-groci"
+                  placeholder="Search for products..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+                <button className="search-btn-groci">
+                  <FaSearch />
+                </button>
+                {filteredProducts.length > 0 && (
+                  <div className="search-results-groci">
+                    {filteredProducts.map((product) => (
+                      <div
+                        key={product.id}
+                        className="search-result-item-groci"
+                        onClick={() => goToDetails(product.id)}
+                      >
+                        {product.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="collapse d-md-none" id="mobileNav">
+            <div className="mobile-nav-groci">
+              <Link to="/home" className="mobile-nav-item-groci">
+                Home
+              </Link>
+              {!user ? (
+                <>
+                  <Link to="/about" className="mobile-nav-item-groci">
+                    About Us
+                  </Link>
+                  <Link to="/contact" className="mobile-nav-item-groci">
+                    Contact Us
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/MyOrders" className="mobile-nav-item-groci">
+                    My Orders
+                  </Link>
+                  <Link to="/summary" className="mobile-nav-item-groci">
+                    <FaShoppingCart className="me-2" />
+                    Cart
+                  </Link>
+                </>
+              )}
+              {user && (
+                <span className="mobile-nav-item-groci profile-trigger" onClick={handleProfileClick} style={{ color: '#fff', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <FaUser className="me-1" /> Hi, {user.fullName?.split(' ')[0] || user.fullName || 'User'}
+                </span>
+              )}
+              {!user && location.pathname === "/Home" && (
+                <>
+                  <span className="mobile-nav-item-groci" onClick={goToRegister}>
+                    Register
+                  </span>
+                  <span className="mobile-nav-item-groci" onClick={goToUserLogin}>
+                    Customer Login
+                  </span>
+                  <span className="mobile-nav-item-groci" onClick={goToAdminLogin}>
+                    Admin Login
+                  </span>
+                </>
               )}
             </div>
           </div>
@@ -149,28 +285,37 @@ function Navbar() {
 
       {/* Profile panel */}
       <AnimatePresence>
-        {showProfile && (
+        {showProfile && user && (
           <>
             <motion.div
-              className='overlay-bg'
+              className="overlay-bg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
-              style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'black', zIndex: 1049 }}
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                backgroundColor: "black",
+                zIndex: 1049,
+              }}
             />
             <motion.div
               ref={profileRef}
-              className='bg-white border rounded-4 shadow-lg p-4'
+              className="profile-panel-groci"
               initial={{ y: -300, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -300, opacity: 0 }}
-              style={{ position: 'fixed', top: '80px', right: '20px', width: '340px', zIndex: 1050 }}
             >
               <div className="d-flex justify-content-end">
                 <button className="btn-close" onClick={() => setShowProfile(false)}></button>
               </div>
               <div className="text-center mb-4">
-                <div className="fs-2">👤</div>
+                <div className="profile-avatar-groci">
+                  <FaUser />
+                </div>
                 <h5 className="fw-bold mb-0">Profile Details</h5>
                 <hr />
               </div>
@@ -195,8 +340,7 @@ function Navbar() {
         )}
       </AnimatePresence>
     </>
-  );
+  )
 }
 
-export default Navbar;
-
+export default Navbar

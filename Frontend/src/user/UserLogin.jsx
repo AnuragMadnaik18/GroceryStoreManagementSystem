@@ -25,13 +25,13 @@ const UserLogin = () => {
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("user", JSON.stringify(response.data));
 
-        toast.success("Login successful!");
+        // toast removed
         navigate("/home");
       } else {
-        toast.error(response.error || "Invalid credentials!");
+        toast.error(response.error || "Invalid credentials!", { autoClose: 1500 });
       }
     } catch (error) {
-      toast.error("An error occurred during login.");
+      toast.error("An error occurred during login.", { autoClose: 1500 });
       console.error("Login error:", error);
     } finally {
       setIsSubmitting(false);
@@ -42,7 +42,7 @@ const UserLogin = () => {
     <div
       className="container-fluid vh-100 d-flex align-items-center justify-content-center position-relative overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)",
         minHeight: "100vh",
       }}
     >
@@ -51,31 +51,31 @@ const UserLogin = () => {
         <div
           className="position-absolute rounded-circle opacity-10"
           style={{
-            width: "300px",
-            height: "300px",
-            background: "rgba(255, 255, 255, 0.1)",
-            top: "-150px",
-            left: "-150px",
+            width: "320px",
+            height: "320px",
+            background: "rgba(255, 255, 255, 0.10)",
+            top: "-160px",
+            left: "-160px",
           }}
         ></div>
         <div
           className="position-absolute rounded-circle opacity-10"
           style={{
-            width: "200px",
-            height: "200px",
-            background: "rgba(255, 255, 255, 0.1)",
-            bottom: "-100px",
-            right: "-100px",
+            width: "220px",
+            height: "220px",
+            background: "rgba(255, 255, 255, 0.10)",
+            bottom: "-110px",
+            right: "-110px",
           }}
         ></div>
         <div
           className="position-absolute rounded-circle opacity-5"
           style={{
-            width: "150px",
-            height: "150px",
-            background: "rgba(255, 255, 255, 0.1)",
-            top: "20%",
-            right: "10%",
+            width: "170px",
+            height: "170px",
+            background: "rgba(255, 255, 255, 0.10)",
+            top: "18%",
+            right: "8%",
           }}
         ></div>
       </div>
@@ -84,7 +84,12 @@ const UserLogin = () => {
         <div className="col-12 col-sm-8 col-md-6 col-lg-4">
           <div
             className="card shadow-lg border-0"
-            style={{ backdropFilter: "blur(10px)", background: "rgba(255, 255, 255, 0.95)" }}
+            style={{
+              backdropFilter: "blur(10px)",
+              background: "rgba(255, 255, 255, 0.97)",
+              borderRadius: "1.5rem",
+              boxShadow: "0 4px 24px rgba(40,167,69,0.10)",
+            }}
           >
             <div className="card-body p-5">
               <div className="text-center mb-4">
@@ -94,7 +99,7 @@ const UserLogin = () => {
                     style={{
                       width: "90px",
                       height: "90px",
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      background: "linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)",
                     }}
                   >
                     <div
@@ -104,6 +109,7 @@ const UserLogin = () => {
                         fontSize: "22px",
                         letterSpacing: "1px",
                         lineHeight: "1",
+                        textShadow: "0 2px 8px rgba(32,178,170,0.10)",
                       }}
                     >
                       Grocify
@@ -152,8 +158,9 @@ const UserLogin = () => {
                     type="submit"
                     className="btn btn-lg fw-semibold border-0 shadow-sm"
                     style={{
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      background: "linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)",
                       color: "white",
+                      boxShadow: "0 2px 8px rgba(32,178,170,0.10)",
                     }}
                     disabled={isSubmitting}
                   >
@@ -165,7 +172,7 @@ const UserLogin = () => {
               <div className="text-center">
                 <p className="mb-0 text-muted">
                   Don't have an account?{" "}
-                  <Link to="/user/register" className="text-decoration-none fw-semibold" style={{ color: "#667eea" }}>
+                  <Link to="/user/register" className="text-decoration-none fw-semibold" style={{ color: "#20b2aa" }}>
                     Register here
                   </Link>
                 </p>

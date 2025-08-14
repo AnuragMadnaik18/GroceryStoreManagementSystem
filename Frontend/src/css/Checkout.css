@@ -1,0 +1,46 @@
+/* Checkout Page Styles */
+.checkout-page {
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.checkout-form {
+    border: 1px solid #e9ecef;
+}
+
+.order-summary {
+    border: 1px solid #e9ecef;
+}
+
+.checkout-form label {
+    font-weight: 500;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+    background: #f8f9ff;
+    border-radius: 0.5rem;
+    border: 1px solid #e9ecef;
+    box-shadow: none;
+}
+
+.checkout-form button {
+    background: linear-gradient(135deg, #4ade80 0%, #20b2aa 100%);
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+}
+
+.checkout-form button:hover {
+    background: linear-gradient(135deg, #20b2aa 0%, #4ade80 100%);
+}
+
+.order-summary {
+    font-size: 1.1rem;
+}
+
+.order-summary .fw-bold {
+    font-size: 1.2rem;
+}

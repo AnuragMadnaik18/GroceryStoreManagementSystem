@@ -25,7 +25,7 @@ const LoginPage = () => {
 
     setTimeout(() => {
       if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        toast.success("Admin login successful!")
+        // toast removed
         navigate("/admin/dashboard")
       } else {
         setError("Invalid admin credentials")
@@ -38,14 +38,14 @@ const LoginPage = () => {
     <div
       className="container-fluid vh-100 d-flex align-items-center justify-content-center position-relative overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)",
         minHeight: "100vh",
       }}
     >
       <div className="position-absolute w-100 h-100">
-        <div className="position-absolute rounded-circle opacity-10" style={{ width: "300px", height: "300px", background: "rgba(255, 255, 255, 0.1)", top: "-150px", left: "-150px" }}></div>
-        <div className="position-absolute rounded-circle opacity-10" style={{ width: "200px", height: "200px", background: "rgba(255, 255, 255, 0.1)", bottom: "-100px", right: "-100px" }}></div>
-        <div className="position-absolute rounded-circle opacity-5" style={{ width: "150px", height: "150px", background: "rgba(255, 255, 255, 0.1)", top: "20%", right: "10%" }}></div>
+        <div className="position-absolute rounded-circle opacity-10" style={{ width: "320px", height: "320px", background: "rgba(255, 255, 255, 0.10)", top: "-160px", left: "-160px" }}></div>
+        <div className="position-absolute rounded-circle opacity-10" style={{ width: "220px", height: "220px", background: "rgba(255, 255, 255, 0.10)", bottom: "-110px", right: "-110px" }}></div>
+        <div className="position-absolute rounded-circle opacity-5" style={{ width: "170px", height: "170px", background: "rgba(255, 255, 255, 0.10)", top: "18%", right: "8%" }}></div>
       </div>
 
       <div className="row w-100 justify-content-center position-relative">
@@ -54,8 +54,9 @@ const LoginPage = () => {
             className="card shadow-lg border-0"
             style={{
               backdropFilter: "blur(10px)",
-              background: "rgba(255, 255, 255, 0.95)",
-              borderRadius: "25px",
+              background: "rgba(255, 255, 255, 0.97)",
+              borderRadius: "1.5rem",
+              boxShadow: "0 4px 24px rgba(40,167,69,0.10)",
             }}
           >
             <div className="card-body p-5">
@@ -66,15 +67,15 @@ const LoginPage = () => {
                     style={{
                       width: "90px",
                       height: "90px",
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      background: "linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)",
                     }}
                   >
-                    <div className="fw-bold" style={{ color: "white", fontSize: "22px", letterSpacing: "1px", lineHeight: "1" }}>
+                    <div className="fw-bold" style={{ color: "white", fontSize: "22px", letterSpacing: "1px", lineHeight: "1", textShadow: "0 2px 8px rgba(32,178,170,0.10)" }}>
                       Grocify
                     </div>
                   </div>
                 </div>
-                <h2 className="card-title fw-bold mb-2" style={{ color: "#667eea" }}>
+                <h2 className="card-title fw-bold mb-2" style={{ color: "#20b2aa" }}>
                   Admin
                 </h2>
                 <p className="text-muted">Access your management dashboard</p>
@@ -121,8 +122,9 @@ const LoginPage = () => {
                     disabled={loading}
                     className="btn btn-lg fw-semibold border-0 shadow-sm"
                     style={{
-                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      background: "linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)",
                       color: "white",
+                      boxShadow: "0 2px 8px rgba(32,178,170,0.10)",
                       cursor: loading ? "not-allowed" : "pointer",
                       opacity: loading ? 0.8 : 1,
                     }}

@@ -1,56 +1,356 @@
-.footer {
-    background: #1f1f1f;
-    color: #fff;
-    padding: 10px 0;
-    /* reduced vertical padding */
-    font-size: 0.85rem;
-    /* slightly smaller font */
+/* Footer Styles */
+.footer-groci {
+    background: linear-gradient(135deg, #1a9999 0%, #20b2aa 100%);
+    color: white;
+    margin-top: 60px;
 }
 
-.footer-container {
+.footer-container-groci {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1.7fr;
+    gap: 40px;
+}
+
+/* Make the 4th column (Get In Touch) wider for better data presentation */
+.footer-section-groci:nth-child(4) {
+    min-width: 320px;
+    grid-column: 4 / 5;
+}
+
+.footer-section-groci {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 15px;
-    max-width: 1100px;
-    margin: auto;
-    padding: 10px 20px;
-    /* compact inner padding */
+    flex-direction: column;
 }
 
-.footer-section h3,
-.footer-section h4 {
-    margin-bottom: 8px;
-    font-size: 1rem;
+/* Brand Section */
+.footer-brand-groci {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.footer-section p,
-.footer-section li {
-    margin: 2px 0;
+.footer-description-groci {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e0f7f7;
+    margin-bottom: 20px;
+}
+
+.footer-features-groci {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.feature-item-groci {
+    font-size: 13px;
+    color: #a7f3d0;
+    font-weight: 500;
+}
+
+/* Headings */
+.footer-heading-groci {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ff6b35;
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+/* Links */
+.footer-links-groci {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.footer-bottom {
-    text-align: center;
-    padding-top: 10px;
-    border-top: 1px solid #333;
-    color: #aaa;
-    font-size: 0.75rem;
+.footer-links-groci li {
+    margin-bottom: 12px;
 }
 
-/* Social icons */
-.social-icons {
+.footer-link-groci {
+    color: #e0f7f7;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.footer-link-groci:hover {
+    color: #ff6b35;
+    transform: translateX(5px);
+}
+
+/* Contact Info */
+.contact-info-groci {
+    margin-bottom: 25px;
+}
+
+.contact-item-groci {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #e0f7f7;
+}
+
+.contact-icon-groci {
+    margin-right: 10px;
+    color: #ff6b35;
+    font-size: 16px;
+}
+
+/* Social Media */
+.social-heading-groci {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.social-icons-groci {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link-groci {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-link-groci.facebook {
+    background-color: #3b5998;
+}
+
+.social-link-groci.instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-link-groci.twitter {
+    background-color: #1da1f2;
+}
+
+.social-link-groci:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Newsletter Section */
+.newsletter-section-groci {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.newsletter-container-groci {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.newsletter-content-groci h4 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.newsletter-content-groci p {
+    font-size: 14px;
+    color: #e0f7f7;
+    margin: 0;
+}
+
+.newsletter-form-groci {
     display: flex;
     gap: 10px;
-    font-size: 1rem;
+    min-width: 300px;
 }
 
-.footer-link {
-  color: white;
-  text-decoration: none;
+.newsletter-input-groci {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+    background-color: white;
 }
 
-.footer-link:hover {
-  text-decoration: underline;
-  color: #ddd;
+.newsletter-input-groci:focus {
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+}
+
+.newsletter-btn-groci {
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.newsletter-btn-groci:hover {
+    background-color: #e55a2b;
+    transform: translateY(-2px);
+}
+
+/* Footer Bottom */
+.footer-bottom-groci {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.footer-bottom-container-groci {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.copyright-groci {
+    font-size: 14px;
+    color: #e0f7f7;
+    margin: 0;
+}
+
+.footer-tagline-groci {
+    color: #ff6b35;
+    font-weight: 600;
+}
+
+.payment-methods-groci {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-text-groci {
+    font-size: 13px;
+    color: #e0f7f7;
+}
+
+.payment-icons-groci {
+    display: flex;
+    gap: 8px;
+}
+
+.payment-icon-groci {
+    font-size: 20px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.payment-icon-groci:hover {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container-groci {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 30px;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .newsletter-container-groci {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .newsletter-form-groci {
+        min-width: 100%;
+        max-width: 400px;
+    }
+
+    .footer-bottom-container-groci {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .social-icons-groci {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-container-groci {
+        padding: 30px 15px 20px;
+    }
+
+    .footer-brand-groci {
+        font-size: 24px;
+    }
+
+    .newsletter-form-groci {
+        flex-direction: column;
+    }
+
+    .newsletter-input-groci,
+    .newsletter-btn-groci {
+        width: 100%;
+    }
+
+    .social-link-groci {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer-section-groci {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.footer-section-groci:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.footer-section-groci:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.footer-section-groci:nth-child(4) {
+    animation-delay: 0.3s;
 }

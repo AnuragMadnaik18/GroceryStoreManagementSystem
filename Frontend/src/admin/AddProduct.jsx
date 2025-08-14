@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { config } from '../services/config';
+import '../css/AddProduct.css';
 
 const AddProduct = ({ onProductAdded, editData }) => {
     const [formData, setFormData] = useState({
@@ -58,14 +59,12 @@ const AddProduct = ({ onProductAdded, editData }) => {
                 price: parseFloat(formData.price),
                 stock: parseInt(formData.stock)
             });
-            alert('Product updated successfully!');
         } else {
             await axios.post(`${config.serverUrl}/products`, {
                 ...formData,
                 price: parseFloat(formData.price),
                 stock: parseInt(formData.stock)
             });
-            alert('Product added successfully!');
         }
         setFormData({ name: '', description: '', price: '', stock: '', category: '' });
         setImage(null);
@@ -74,32 +73,32 @@ const AddProduct = ({ onProductAdded, editData }) => {
     };
 
     const categories = [
-        'FRESHPRODUCTS','DAIRY','BAKERY', 'FROZENFOOD', 'PACKAGEDFOOD', 'BEVERAGES', 'HEALTHNBEAUTY', 'HOUSEHOLD', 'PETFOOD'
+        'FRESHPRODUCTS', 'DAIRY', 'BAKERY', 'FROZENFOOD', 'PACKAGEDFOOD', 'BEVERAGES', 'HEALTHNBEAUTY', 'HOUSEHOLD', 'PETFOOD'
     ];
 
     return (
-        <div className="card shadow-lg border-0 mx-auto" style={{ maxWidth: '520px', marginTop: '48px', background: '#fff' }}>
-            <div className="card-header bg-primary text-white text-center py-3 rounded-top">
-                <h4 className="mb-0">{editData ? 'Edit Product' : 'Add Product'}</h4>
+        <div className="add-product-card mx-auto">
+            <div className="add-product-header">
+                <h4 className="add-product-title">{editData ? 'Edit Product' : 'Add Product'}</h4>
             </div>
-            <div className="card-body p-4">
+            <div className="add-product-form">
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="form-label fw-semibold">Name</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-control form-control-lg" placeholder="Enter product name" required />
+                        <label className="form-label">Name</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-control" placeholder="Enter product name" required />
                     </div>
                     <div className="mb-4">
-                        <label className="form-label fw-semibold">Description</label>
-                        <textarea name="description" value={formData.description} onChange={handleChange} className="form-control form-control-lg" rows={2} placeholder="Enter product description" required />
+                        <label className="form-label">Description</label>
+                        <textarea name="description" value={formData.description} onChange={handleChange} className="form-control" rows={2} placeholder="Enter product description" required />
                     </div>
                     <div className="row mb-4">
                         <div className="col-md-6">
-                            <label className="form-label fw-semibold">Price</label>
-                            <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} className="form-control form-control-lg" placeholder="Price" required />
+                            <label className="form-label">Price</label>
+                            <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} className="form-control" placeholder="Price" required />
                         </div>
                         <div className="col-md-6">
-                            <label className="form-label fw-semibold">Quantity In Stock</label>
-                            <input type="number" name="stock" value={formData.stock} onChange={handleChange} className="form-control form-control-lg" placeholder="Quantity" required />
+                            <label className="form-label">Quantity In Stock</label>
+                            <input type="number" name="stock" value={formData.stock} onChange={handleChange} className="form-control" placeholder="Quantity" required />
                         </div>
                     </div>
                     <div className="mb-3">
@@ -117,17 +116,16 @@ const AddProduct = ({ onProductAdded, editData }) => {
                             ))}
                         </select>
                     </div>
-
                     <div className="mb-4">
-                        <label className="form-label fw-semibold">Product Image</label>
+                        <label className="form-label">Product Image</label>
                         <input type="file" accept="image/*" className="form-control" onChange={handleImageChange} />
                         {preview && (
-                            <div className="mt-3 text-center">
-                                <img src={preview} alt="Preview" style={{ maxWidth: '180px', maxHeight: '180px', borderRadius: '8px', boxShadow: '0 0 8px #ccc' }} />
+                            <div className="add-product-image-preview">
+                                <img src={preview} alt="Preview" />
                             </div>
                         )}
                     </div>
-                    <button type="submit" className="btn btn-primary w-100 py-2 fs-5">{editData ? 'Update Product' : 'Add Product'}</button>
+                    <button type="submit" className="btn btn-primary w-100">{editData ? 'Update Product' : 'Add Product'}</button>
                 </form>
             </div>
         </div>

@@ -1,0 +1,78 @@
+/* AddProduct Modern Theme */
+.add-product-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+    border-radius: 22px;
+    box-shadow: 0 4px 32px 0 rgba(60, 72, 88, 0.10), 0 1.5px 6px 0 rgba(60, 72, 88, 0.08);
+    padding: 0;
+    margin-top: 48px;
+    max-width: 520px;
+}
+
+.add-product-header {
+    background: linear-gradient(90deg, #4f8cff 0%, #38c6ff 100%);
+    color: #fff;
+    border-radius: 22px 22px 0 0;
+    text-align: center;
+    padding: 28px 0 18px 0;
+}
+
+.add-product-title {
+    font-weight: 700;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+.add-product-form {
+    padding: 32px 28px 24px 28px;
+}
+
+.add-product-form .form-label {
+    color: #3a3a3a;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.add-product-form .form-control,
+.add-product-form .form-select {
+    border-radius: 10px;
+    border: 1.5px solid #e0e7ef;
+    background: #f8fafc;
+    font-size: 1.08rem;
+    box-shadow: none;
+    margin-bottom: 10px;
+}
+
+.add-product-form .form-control:focus,
+.add-product-form .form-select:focus {
+    border-color: #4f8cff;
+    background: #fff;
+}
+
+.add-product-form button[type="submit"] {
+    background: linear-gradient(90deg, #4f8cff 0%, #38c6ff 100%);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px 0 rgba(60, 72, 88, 0.10);
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+.add-product-form button[type="submit"]:hover {
+    background: linear-gradient(90deg, #38c6ff 0%, #4f8cff 100%);
+}
+
+.add-product-image-preview {
+    margin-top: 18px;
+    text-align: center;
+}
+
+.add-product-image-preview img {
+    max-width: 180px;
+    max-height: 180px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px #b3c6e0;
+}

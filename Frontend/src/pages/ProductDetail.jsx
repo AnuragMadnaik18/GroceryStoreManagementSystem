@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAverageRatingAPI } from '../services/feedback';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useCart } from '../store/CartContext';
@@ -30,6 +31,9 @@ function ProductDetail() {
   const storedUser = sessionStorage.getItem('user');
   const user = storedUser ? JSON.parse(storedUser) : null;
 
+  // Average rating state
+  const [averageRating, setAverageRating] = useState(null);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -55,7 +59,7 @@ function ProductDetail() {
     fetchProduct();
   }, [id]);
 
-  // Fetch feedback for product
+  // Fetch feedback and average rating for product
   useEffect(() => {
     const fetchFeedback = async () => {
       setFeedbackLoading(true);
@@ -68,13 +72,24 @@ function ProductDetail() {
         setFeedbackLoading(false);
       }
     };
-    if (id) fetchFeedback();
+    const fetchAvgRating = async () => {
+      try {
+        const res = await getAverageRatingAPI(id);
+        setAverageRating(res.data);
+      } catch {
+        setAverageRating(null);
+      }
+    };
+    if (id) {
+      fetchFeedback();
+      fetchAvgRating();
+    }
   }, [id]);
   // Submit feedback
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
     if (!feedback.trim() || rating === 0) {
-      toast.error('Please enter feedback and select a rating.');
+      toast.success(`${product.name} added to cart`, { autoClose: 750 });
       return;
     }
     try {
@@ -85,12 +100,19 @@ function ProductDetail() {
       });
       setFeedback('');
       setRating(0);
-      // Refresh feedback list
+      // Refresh feedback list and average rating
       const res = await axios.get(`${config.serverUrl}/products/${id}/feedback`);
       setFeedbackList(res.data);
+      try {
+        const avgRes = await getAverageRatingAPI(id);
+        setAverageRating(avgRes.data);
+      } catch {
+        setAverageRating(null);
+      }
       toast.success('Feedback submitted!');
+      // toast removed
     } catch (err) {
-      toast.error('Failed to submit feedback');
+      toast.error('Failed to submit feedback', { autoClose: 1500 });
     }
   };
 
@@ -112,7 +134,7 @@ function ProductDetail() {
     const user = JSON.parse(sessionStorage.getItem("user"));
 
     if (!user) {
-      toast.info("Please login to add items to cart.");
+      toast.error("Please login to add items to cart.", { autoClose: 750 });
       navigate('/user/login');
       return;
     }
@@ -135,12 +157,13 @@ function ProductDetail() {
         };
         await addToCartAPI(cartItem);
 
-        toast.success(`${product.name} added to cart (backend)!`);
+        toast.success(`${product.name} added to cart `, {autoClose:750});
+        // toast removed
       } catch (error) {
-        toast.error("Failed to add to backend cart.");
+        toast.error("Failed to add to backend cart.", { autoClose: 1500 });
       }
     } else {
-      toast.success(`${product.name} added to cart (guest)!`);
+      // toast removed
     }
 
     //toast.success(`${product.name} added to cart!`);
@@ -150,86 +173,107 @@ function ProductDetail() {
   const decreaseQty = () => setQuantity(q => (q > 1 ? q - 1 : 1));
 
   return (
-    <div>
+    <div style={{ background: '#f8f9fa', minHeight: '100vh' }}>
       <Navbar />
-      <div className='container my-5'>
+      <div className='container py-5'>
         <div className='row justify-content-center'>
           <div className='col-lg-10'>
-            <div className='card shadow-lg border-0'>
-              <div className='row g-0'>
-                <div className='col-md-6'>
+            <div className='row g-4 align-items-stretch'>
+              {/* Product Image */}
+              <div className='col-md-5'>
+                <div style={{ background: '#fff', borderRadius: '1.5rem', boxShadow: '0 4px 24px rgba(40,167,69,0.10)', padding: 24, textAlign: 'center', height: '100%' }}>
                   {localStorage.getItem('product_img_' + product.name) ? (
                     <img
                       src={localStorage.getItem('product_img_' + product.name)}
                       alt={product.name}
-                      className='img-fluid rounded-start w-100 h-100 object-fit-cover'
-                      style={{ maxHeight: '500px', objectFit: 'cover' }}
+                      style={{ maxHeight: 340, width: '100%', objectFit: 'contain', borderRadius: '1rem', border: '1px solid #e0f7f7', background: '#f8f9fa' }}
                     />
                   ) : (
                     <img
                       src={product.image}
                       alt={product.name}
-                      className='img-fluid rounded-start w-100 h-100 object-fit-cover'
-                      style={{ maxHeight: '500px', objectFit: 'cover' }}
+                      style={{ maxHeight: 340, width: '100%', objectFit: 'contain', borderRadius: '1rem', border: '1px solid #e0f7f7', background: '#f8f9fa' }}
                     />
                   )}
                 </div>
-
-                <div className='col-md-6'>
-                  <div className='card-body'>
-                    <h4 className='card-title'>{product.name}</h4>
-                    <h3 className='text-primary'>₹{product.price}</h3>
-                    <p className='mt-3'>
-                      <strong>Description:</strong> {product.description || 'No description available.'}
-                    </p>
-
-                    <div className='mt-4 d-flex align-items-center gap-3'>
-                      <span className='fw-semibold'>Quantity:</span>
-                      <button className='btn btn-outline-secondary' onClick={decreaseQty}>−</button>
-                      <span className='fs-5'>{quantity}</span>
-                      <button className='btn btn-outline-secondary' onClick={increaseQty}>+</button>
+              </div>
+              {/* Product Info */}
+              <div className='col-md-7'>
+                <div style={{ background: '#fff', borderRadius: '1.5rem', boxShadow: '0 4px 24px rgba(40,167,69,0.10)', padding: 32, height: '100%' }}>
+                  <h2 style={{ color: '#20b2aa', fontWeight: 700 }}>{product.name}</h2>
+                  {averageRating !== null && (
+                    <div className="mb-2" style={{ fontSize: 18, color: '#ffc107', fontWeight: 600 }}>
+                      Rating: {averageRating.toFixed(1)}{' '}
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <span key={star} style={{ color: star <= Math.round(averageRating) ? '#ffc107' : '#ccc', fontSize: '1.3rem' }}>★</span>
+                      ))}
                     </div>
-
-                    <div className='mt-3'>
-                      <p className='fw-bold fs-5'>Total: ₹{product.price * quantity}</p>
-                    </div>
-
-                    <div className='mt-4 d-flex gap-3'>
-                      {isInCart ? (
-                        <button className='btn btn-warning btn-lg' onClick={() => navigate('/summary')}>
-                          Go to Cart
-                        </button>
-                      ) : (
-                        <button className='btn btn-success btn-lg' onClick={handleAddToCart}>
-                          Add to Cart
-                        </button>
-                      )}
-                      <button className='btn btn-secondary btn-lg' onClick={() => navigate('/Home')}>
-                        Back to Home
+                  )}
+                  <div className='d-flex align-items-center gap-3 mb-2'>
+                    <span style={{ color: '#4ade80', fontWeight: 700, fontSize: 28 }}>₹{product.price}</span>
+                    <span className='badge bg-success' style={{ fontSize: 14, fontWeight: 500 }}>In Stock</span>
+                  </div>
+                  <div className='mb-3' style={{ color: '#888', fontSize: 15 }}> Category: {product.category}</div>
+                  <div className='mb-4'>
+                    <span style={{ fontWeight: 600 }}>Quantity:</span>
+                    <button className='btn btn-outline-success mx-2' style={{ borderRadius: 8, minWidth: 36 }} onClick={decreaseQty}>−</button>
+                    <span className='fs-5'>{quantity}</span>
+                    <button className='btn btn-outline-success mx-2' style={{ borderRadius: 8, minWidth: 36 }} onClick={increaseQty}>+</button>
+                  </div>
+                  <div className='mb-3'>
+                    <span className='fw-bold fs-5' style={{ color: '#20b2aa' }}>Total: ₹{product.price * quantity}</span>
+                  </div>
+                  <div className='d-flex gap-3 mb-4'>
+                    {isInCart ? (
+                      <button className='btn btn-warning btn-lg' style={{ background: '#ff6b35', border: 'none', color: 'white', fontWeight: 600, borderRadius: 8 }} onClick={() => navigate('/summary')}>
+                        Go to Cart
                       </button>
+                    ) : (
+                      <button className='btn btn-success btn-lg' style={{ background: 'linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)', border: 'none', color: 'white', fontWeight: 600, borderRadius: 8 }} onClick={handleAddToCart}>
+                        Add to Cart
+                      </button>
+                    )}
+                    <button className='btn btn-secondary btn-lg' style={{ background: '#e0f7f7', color: '#20b2aa', border: 'none', fontWeight: 600, borderRadius: 8 }} onClick={() => navigate('/Home')}>
+                      Back to Home
+                    </button>
+                  </div>
+                  <div className='mb-3' style={{ color: '#333', fontSize: 16 }}>
+                    <strong>Quick Overview</strong>
+                    <div style={{ color: '#666', fontSize: 15, marginTop: 6 }}>{product.description || 'No description available.'}</div>
+                  </div>
+                  <div className='row mt-4'>
+                    <div className='col-6 mb-2'>
+                      <div style={{ background: '#e0f7f7', borderRadius: 8, padding: 12, fontSize: 15 }}>
+                        <span role='img' aria-label='delivery'>🚚</span> Free Delivery
+                      </div>
+                    </div>
+                    <div className='col-6 mb-2'>
+                      <div style={{ background: '#e0f7f7', borderRadius: 8, padding: 12, fontSize: 15 }}>
+                        <span role='img' aria-label='guarantee'>✅</span> 100% Guarantee
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div> {/* row */}
+              </div>
             </div>
 
-            {/* Recommended Products */}
+            {/* Related Products */}
             {recommended.length > 0 ? (
               <div className="mt-5">
-                <h5 className="mb-3">Recommended Products</h5>
+                <h4 className="mb-4" style={{ color: '#20b2aa', fontWeight: 700 }}>Related Products</h4>
                 <div className="row">
                   {recommended.map((rec) => (
                     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={rec.id}>
-                      <div className="card h-100 shadow-sm border-0" style={{ cursor: 'pointer' }} onClick={() => navigate(`/product/${rec.id}`)}>
+                      <div className="card h-100 shadow-sm border-0" style={{ cursor: 'pointer', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(32,178,170,0.10)' }} onClick={() => navigate(`/product/${rec.id}`)}>
                         <img
                           src={localStorage.getItem('product_img_' + rec.name) || rec.image}
                           alt={rec.name}
                           className="card-img-top"
-                          style={{ height: '140px', objectFit: 'contain' }}
+                          style={{ height: '140px', objectFit: 'contain', background: '#e0f7f7', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
                         />
                         <div className="card-body d-flex flex-column">
-                          <h6 className="card-title text-truncate">{rec.name}</h6>
-                          <p className="card-text text-success fw-semibold mb-1">₹{rec.price}</p>
+                          <h6 className="card-title text-truncate" style={{ color: '#20b2aa', fontWeight: 600 }}>{rec.name}</h6>
+                          <p className="card-text fw-semibold mb-1" style={{ color: '#4ade80' }}>₹{rec.price}</p>
                         </div>
                       </div>
                     </div>
@@ -239,8 +283,8 @@ function ProductDetail() {
             ) : null}
 
             {/* Feedback Section */}
-            <div className='card mt-4'>
-              <div className='card-header bg-info text-white'>
+            <div className='card mt-4' style={{ borderRadius: '1rem', boxShadow: '0 2px 8px rgba(32,178,170,0.10)' }}>
+              <div className='card-header' style={{ background: 'linear-gradient(135deg, #4ade80 0%, #20b2aa 100%)', color: 'white', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}>
                 <h5 className='mb-0'>Product Feedback</h5>
               </div>
               <div className='card-body'>

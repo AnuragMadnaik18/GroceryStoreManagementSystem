@@ -1,0 +1,62 @@
+/* Payment Page Themed like Home */
+.payment-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.payment-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 24px rgba(40, 167, 69, 0.10);
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    border: none;
+}
+
+.payment-title {
+    color: #20b2aa;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.payment-amount {
+    color: #28a745;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.payment-btn {
+    background: #20b2aa;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    padding: 1.1rem 0;
+    margin-top: 1.5rem;
+    width: 100%;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(32, 178, 170, 0.08);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.payment-btn:hover {
+    background: #179b91;
+}
+
+.payment-qr {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.payment-note {
+    color: #888;
+    text-align: center;
+    margin-bottom: 1.2rem;
+}

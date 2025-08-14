@@ -1,40 +1,267 @@
-/* Navbar.css */
-.navbar {
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+/* Top Header */
+.top-header-groci {
+  background-color: #343a40;
+  color: white;
+  padding: 8px 0;
+  font-size: 13px;
 }
 
-.nav-link:hover {
-  color: #00d4ff !important;
-  text-decoration: underline;
+.contact-info-groci {
+  display: flex;
+  align-items: center;
 }
 
-.navbar-brand:hover {
-  color: #00ffb3 !important;
+.user-options-groci {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
 }
 
-input.form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 255, 132, 0.25);
+.location-groci {
+  display: flex;
+  align-items: center;
 }
 
-.list-group-item:hover {
+.auth-link-groci {
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none;
+  color: white;
+}
+
+.auth-link-groci:hover {
+  color: #20b2aa;
+}
+
+/* Main Header */
+.main-header-groci {
+  background-color: #20b2aa;
+  padding: 15px 0;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-groci {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.logo-groci:hover {
+  color: #a7f3d0;
+}
+
+/* Search Container */
+.search-container-groci {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input-groci {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: white;
+}
+
+.search-input-groci:focus {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.search-btn-groci {
+  background-color: #ff6b35;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn-groci:hover {
+  background-color: #e55a2b;
+}
+
+/* Search Results */
+.search-results-groci {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.search-result-item-groci {
+  padding: 12px 16px;
+  cursor: pointer;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.search-result-item-groci:hover {
   background-color: #f8f9fa;
-  font-weight: 500;
 }
 
-.user-profile-slide {
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+.search-result-item-groci:last-child {
+  border-bottom: none;
 }
 
-.overlay-bg {
-  backdrop-filter: blur(2px);
+/* Header Actions */
+.header-actions-groci {
+  display: flex;
+  justify-content: flex-end;
+  gap: 25px;
+  align-items: center;
 }
 
-
-.navbar-toggler {
-  border-color: #ffffff !important;
+.action-item-groci {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22' /%3E%3C/svg%3E");
+.action-item-groci:hover {
+  color: #a7f3d0;
+}
+
+/* Mobile Navigation */
+.mobile-nav-groci {
+  background-color: #1a9999;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-item-groci {
+  display: block;
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-item-groci:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navbar-toggler-icon-custom {
+  font-size: 20px;
+  color: white;
+}
+
+/* Profile Panel */
+.profile-panel-groci {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  width: 340px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 1050;
+  padding: 20px;
+}
+
+.profile-avatar-groci {
+  width: 60px;
+  height: 60px;
+  background-color: #20b2aa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  color: white;
+  font-size: 24px;
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #20b2aa;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .top-header-groci {
+    display: none;
+  }
+
+  .main-header-groci {
+    padding: 10px 0;
+  }
+
+  .logo-groci {
+    font-size: 20px;
+  }
+
+  .search-input-groci {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .search-btn-groci {
+    padding: 10px 15px;
+  }
+
+  .profile-panel-groci {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    top: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-header-groci {
+    padding: 8px 0;
+  }
+
+  .logo-groci {
+    font-size: 18px;
+  }
+
+  .mobile-nav-groci {
+    padding: 15px 0;
+  }
+
+  .mobile-nav-item-groci {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
 }
