@@ -20,7 +20,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userRepo;
+    private UserDao userDao;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("Password: " + request.getPassword());
         System.out.println("Phone: " + request.getPhoneNumber());
 
-        if (userRepo.findByEmail(request.getEmail()).isPresent()) {
+        if (userDao.findByEmail(request.getEmail()).isPresent()) {
             throw new CustomException("Email already exists");
         }
 
@@ -45,45 +45,41 @@ public class UserServiceImpl implements UserService {
         user.setFullName(request.getFullName());
         user.setAddress(request.getAddress());
         user.setEmail(request.getEmail());
-
-        // ❌ Do NOT encrypt the password
         user.setPassword(request.getPassword());
-
         user.setPhoneNumber(request.getPhoneNumber());
-
-        return userRepo.save(user);
+        return userDao.save(user);
     }
 
+ 
+    
     @Override
     public User loginUser(LoginRequest request) {
         try {
-            Authentication auth = authenticationManager.authenticate(
+            authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
 
-            String token = jwtUtil.createToken(auth);
-            System.out.println("✅ JWT Token Generated for user: " + request.getEmail());
-            System.out.println("🔐 Token: " + token);
-
-            Optional<User> userOpt = userRepo.findByEmail(request.getEmail());
-            return userOpt.get();
+            // Only return the user
+            return userDao.findByEmail(request.getEmail())
+                          .orElseThrow(() -> new CustomException("User not found"));
 
         } catch (Exception e) {
             throw new CustomException("Invalid email or password");
         }
     }
 
+
     @Override
     public List<User> getAllUsers() {
-        return userRepo.findByStatusTrue();
+        return userDao.findByStatusTrue();
     }
 
     @Override
     public String softdelete(Long id) {
-        User old = userRepo.findById(id)
+        User old = userDao.findById(id)
             .orElseThrow(() -> new RuntimeException("User not found"));
         old.setStatus(false);
-        userRepo.save(old);
+        userDao.save(old);
         return "User deactivated (soft deleted)";
     }
 }
